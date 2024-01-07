@@ -39,6 +39,14 @@ public class TestController {
         return ResponseEntity.successResult(orderMap);
     }
 
+    @GetMapping("/queryOrders")
+    @ApiOperation("queryOrders")
+    public ResponseEntity queryOrders() {
+        Map<String, Object> orderMap = orderService.queryOrders();
+        return ResponseEntity.successResult(orderMap);
+    }
+
+
     @GetMapping("/save")
     @ApiOperation("save")
     public ResponseEntity save() {

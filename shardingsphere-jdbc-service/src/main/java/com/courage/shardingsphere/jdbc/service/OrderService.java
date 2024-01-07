@@ -27,11 +27,15 @@ public class OrderService {
     public Map<String, Object> queryOrder(Long orderId) {
         return orderMapper.queryOrder(orderId);
     }
+    public Map<String, Object> queryOrders(  ) {
+        Map<String,Map<String, Object>>  map = orderMapper.queryOrders();
+        return null;
+    }
 
     @Transactional
     public void save() {
-        Long entId = 5L;
-        String regionCode = "BJ";
+        Long entId = 6L;
+        String regionCode = "HZ";
 
         //保存订单基本信息
         TEntOrder tEntOrder = new TEntOrder();

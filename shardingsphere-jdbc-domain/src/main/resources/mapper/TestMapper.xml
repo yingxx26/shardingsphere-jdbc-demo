@@ -105,4 +105,12 @@
                     a.id = b.order_id
     </select>
 
+    <!-- 查询订单 -->
+    <select id="queryOrders"   resultType="java.util.HashMap">
+            select
+                   *
+                    FROM
+                    t_ent_order a
+    </select>
+
 </mapper>
