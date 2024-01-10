@@ -5,6 +5,7 @@ import com.courage.shardingsphere.jdbc.domain.po.TEntOrderDetail;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrderItem;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -23,5 +24,5 @@ public interface OrderMapper {
 
     Map<String,Object> queryOrder(Long orderId);
 
-    Map<String,Object> queryOrders();
+    List<TEntOrder>  queryOrders();
 }

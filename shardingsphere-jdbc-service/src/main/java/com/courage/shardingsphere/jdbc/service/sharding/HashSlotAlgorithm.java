@@ -28,13 +28,13 @@ public class HashSlotAlgorithm implements ComplexKeysShardingAlgorithm {
         }
         // 先判断是否走主键路由，若主键路由, 查询中到数据 按照主键路由 , 否则按照分表字段路由
         boolean querySnowFlakeIdOK = false;
-        String querySnowFlakeIdColumn = getQuerySnowFlakeIdColumn();
+        String querySnowFlakeIdColumn = getQuerySnowFlakeIdColumn();//id
         if (StringUtils.isNotBlank(querySnowFlakeIdColumn)) {
-            List<String> valuesByQuerySnowFlakeId = doShardingValuesByQuerySnowFlakeId(complexKeysShardingValue);
+            List<String> valuesByQuerySnowFlakeId = doShardingValuesByQuerySnowFlakeId(complexKeysShardingValue);//ComplexKeysShardingValue(logicTableName=t_ent_order, columnNameAndShardingValuesMap={id=[12]}, columnNameAndRangeValuesMap={})
             if (CollectionUtils.isNotEmpty(valuesByQuerySnowFlakeId)) {
                 querySnowFlakeIdOK = true;
-                for (String idValue : valuesByQuerySnowFlakeId) {
-                    slotList.add(SnowFlakeIdGenerator.getWorkerId(Long.valueOf(idValue)));
+                for (String idValue : valuesByQuerySnowFlakeId) {//584062003144482817
+                    slotList.add(SnowFlakeIdGenerator.getWorkerId(Long.valueOf(idValue)));//942
                 }
             }
         }
@@ -51,8 +51,8 @@ public class HashSlotAlgorithm implements ComplexKeysShardingAlgorithm {
         //返回结果
         List result = new ArrayList<>();
         for (Integer slot : slotList) {
-            int index = StringHashUtil.index(slot, count);
-            result.add(availableTargetNames.toArray()[index]);
+            int index = StringHashUtil.index(slot, count);//3
+            result.add(availableTargetNames.toArray()[index]);//ds3
         }
         return result;
     }
