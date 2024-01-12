@@ -24,5 +24,7 @@ public interface OrderMapper {
 
     Map<String,Object> queryOrder(Long orderId);
 
+    Map<String,Object> queryOrderByEntId(Long entId);
+
     List<TEntOrder>  queryOrders();
 }

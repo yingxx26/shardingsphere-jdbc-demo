@@ -28,6 +28,11 @@ public class OrderService {
     public Map<String, Object> queryOrder(Long orderId) {
         return orderMapper.queryOrder(orderId);
     }
+
+    public Map<String, Object> queryOrderByEntId(Long entId) {
+        return orderMapper.queryOrderByEntId(entId);
+    }
+
     public List<TEntOrder> queryOrders(  ) {
          List<TEntOrder> list= orderMapper.queryOrders();
         return list;

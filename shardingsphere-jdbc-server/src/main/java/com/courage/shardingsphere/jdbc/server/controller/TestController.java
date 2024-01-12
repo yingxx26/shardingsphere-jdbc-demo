@@ -41,6 +41,13 @@ public class TestController {
         return ResponseEntity.successResult(orderMap);
     }
 
+    @GetMapping("/queryOrderByEntId")
+    @ApiOperation("queryOrderByEntId")
+    public ResponseEntity queryOrderByEntId(String entId) {
+        Map<String, Object> orderMap = orderService.queryOrderByEntId(Long.valueOf(entId));
+        return ResponseEntity.successResult(orderMap);
+    }
+
     @GetMapping("/queryOrders")
     @ApiOperation("queryOrders")
     public ResponseEntity queryOrders() {

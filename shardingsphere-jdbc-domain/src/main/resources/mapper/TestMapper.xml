@@ -106,6 +106,25 @@
     </select>
 
     <!-- 查询订单 -->
+    <select id="queryOrderByEntId" parameterType="java.lang.Long" resultType="java.util.HashMap">
+            select
+                    a.id ,
+                    a.ent_id,
+                    a.region_code,
+                    a.amount,
+                    a.mobile,
+                    a.create_time,
+                    a.update_time,
+                    b.address
+                    FROM
+                    t_ent_order a , t_ent_order_detail b
+                    where
+                    a.ent_id = #{entId}
+                    and
+                    a.id = b.order_id
+    </select>
+
+    <!-- 查询订单 -->
     <select id="queryOrders"   resultType="com.courage.shardingsphere.jdbc.domain.po.TEntOrder">
             select
                    *
