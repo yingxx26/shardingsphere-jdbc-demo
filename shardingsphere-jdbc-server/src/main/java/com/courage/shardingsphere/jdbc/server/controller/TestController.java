@@ -2,6 +2,7 @@ package com.courage.shardingsphere.jdbc.server.controller;
 
 import com.courage.shardingsphere.jdbc.common.result.ResponseEntity;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrder;
+import com.courage.shardingsphere.jdbc.domain.po.User;
 import com.courage.shardingsphere.jdbc.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -57,4 +58,17 @@ public class TestController {
     }
 
 
+    @GetMapping("/queryUsers")//没用插件
+    @ApiOperation("queryUsers")
+    public ResponseEntity queryUsers() {
+        List<User> orderMap = orderService.queryUsers();
+        return ResponseEntity.successResult(orderMap);
+    }
+
+    @GetMapping("/saveuser")
+    @ApiOperation("saveuser")
+    public ResponseEntity saveuser() {
+        orderService.saveUser();
+        return ResponseEntity.successResult(null);
+    }
 }

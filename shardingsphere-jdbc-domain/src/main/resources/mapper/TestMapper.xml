@@ -114,4 +114,30 @@
                     limit #{limit}   offset #{offset}
     </select>
 
+
+    <select id="queryUsers"  parameterType="map" resultType="User">
+            select
+                   *
+                    FROM
+                    test_bigsql a
+                    limit  ${offset} ,${limit}
+    </select>
+
+    <insert id="saveUser" parameterType="com.courage.shardingsphere.jdbc.domain.po.User">
+        insert into test_bigsql
+        (
+            id,
+            order_no,
+            user_id ,
+            amount
+        )
+        values
+        (
+             #{id},
+             #{orderNo},
+             #{userId},
+             #{amount}
+        )
+    </insert>
+
 </mapper>

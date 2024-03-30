@@ -3,6 +3,7 @@ package com.courage.shardingsphere.jdbc.domain.mapper;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrder;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrderDetail;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrderItem;
+import com.courage.shardingsphere.jdbc.domain.po.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,4 +26,8 @@ public interface OrderMapper {
     Map<String,Object> queryOrder(Long orderId);
 
     List<TEntOrder> queryOrders( Map<String,Object> map);
+
+    List<User> queryUsers(Map<String,Object> map);
+
+    void saveUser(User user);
 }
