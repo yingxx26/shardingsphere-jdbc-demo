@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -27,9 +29,12 @@ public class OrderService {
     public Map<String, Object> queryOrder(Long orderId) {
         return orderMapper.queryOrder(orderId);
     }
-    public Map<String, Object> queryOrders(  ) {
-        Map<String,Map<String, Object>>  map = orderMapper.queryOrders();
-        return null;
+    public List<TEntOrder> queryOrders(  ) {
+        Map<String,Object> map= new HashMap<>();
+        map.put("offset",9);
+        map.put("limit",2);
+        List<TEntOrder> tEntOrders = orderMapper.queryOrders(map);
+        return tEntOrders;
     }
 
     @Transactional

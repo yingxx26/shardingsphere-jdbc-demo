@@ -1,6 +1,7 @@
 package com.courage.shardingsphere.jdbc.server.controller;
 
 import com.courage.shardingsphere.jdbc.common.result.ResponseEntity;
+import com.courage.shardingsphere.jdbc.domain.po.TEntOrder;
 import com.courage.shardingsphere.jdbc.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @Api(tags = "测试接口")
@@ -42,7 +44,7 @@ public class TestController {
     @GetMapping("/queryOrders")
     @ApiOperation("queryOrders")
     public ResponseEntity queryOrders() {
-        Map<String, Object> orderMap = orderService.queryOrders();
+        List<TEntOrder> orderMap = orderService.queryOrders();
         return ResponseEntity.successResult(orderMap);
     }
 

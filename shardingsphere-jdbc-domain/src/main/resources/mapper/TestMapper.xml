@@ -106,11 +106,12 @@
     </select>
 
     <!-- 查询订单 -->
-    <select id="queryOrders"   resultType="java.util.HashMap">
+    <select id="queryOrders"  parameterType="map" resultType="TEntOrder">
             select
                    *
                     FROM
                     t_ent_order a
+                    limit #{limit}   offset #{offset}
     </select>
 
 </mapper>
