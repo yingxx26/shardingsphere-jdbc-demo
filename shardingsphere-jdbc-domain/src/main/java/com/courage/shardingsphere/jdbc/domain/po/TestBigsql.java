@@ -3,7 +3,7 @@ package com.courage.shardingsphere.jdbc.domain.po;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class User {
+public class TestBigsql {
 
     private Long id;
 

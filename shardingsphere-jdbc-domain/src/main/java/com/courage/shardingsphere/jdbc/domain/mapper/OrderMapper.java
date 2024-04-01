@@ -3,7 +3,7 @@ package com.courage.shardingsphere.jdbc.domain.mapper;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrder;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrderDetail;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrderItem;
-import com.courage.shardingsphere.jdbc.domain.po.User;
+import com.courage.shardingsphere.jdbc.domain.po.TestBigsql;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public interface OrderMapper {
 
     List<TEntOrder> queryOrders( Map<String,Object> map);
 
-    List<User> queryUsers(Map<String,Object> map);
+    List<TestBigsql> queryUsers(Map<String,Object> map);
 
-    void saveUser(User user);
+    void saveUser(TestBigsql testBigsql);
 }

@@ -2,7 +2,7 @@ package com.courage.shardingsphere.jdbc.service;
 
 import com.courage.shardingsphere.jdbc.domain.mapper.OrderMapper;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrder;
-import com.courage.shardingsphere.jdbc.domain.po.User;
+import com.courage.shardingsphere.jdbc.domain.po.TestBigsql;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrderDetail;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,26 +90,26 @@ public class OrderService {
     }
 
 
-    public List<User> queryUsers(  ) {
+    public List<TestBigsql> queryUsers(  ) {
         Map<String,Object> map= new HashMap<>();
         map.put("offset",9);
         map.put("limit",2);
-        List<User> users = orderMapper.queryUsers(map);
-        return users;
+        List<TestBigsql> testBigsqls = orderMapper.queryUsers(map);
+        return testBigsqls;
     }
 
     @Transactional
     public void saveUser() {
 
         //保存订单基本信息
-        User user = new User();
+        TestBigsql testBigsql = new TestBigsql();
         for(Integer i=1;i<40;i++){
-            user.setId(i.longValue());
-            user.setOrderNo("HZ"+i);
-            user.setUserId(i.longValue());
-            user.setAmount(new BigDecimal(12.0));
+            testBigsql.setId(i.longValue());
+            testBigsql.setOrderNo("HZ"+i);
+            testBigsql.setUserId(i.longValue());
+            testBigsql.setAmount(new BigDecimal(12.0));
 
-            orderMapper.saveUser(user);
+            orderMapper.saveUser(testBigsql);
         }
     }
 }

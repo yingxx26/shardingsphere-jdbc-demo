@@ -106,7 +106,7 @@
     </select>
 
     <!-- 查询订单 -->
-    <select id="queryOrders"  parameterType="map" resultType="TEntOrder">
+    <select id="queryOrders"  parameterType="map" resultType="com.courage.shardingsphere.jdbc.domain.po.TEntOrder">
             select
                    *
                     FROM
@@ -115,7 +115,7 @@
     </select>
 
 
-    <select id="queryUsers"  parameterType="map" resultType="User">
+    <select id="queryUsers"  parameterType="map" resultType="com.courage.shardingsphere.jdbc.domain.po.TestBigsql">
             select
                    *
                     FROM
@@ -123,7 +123,7 @@
                     limit  ${offset} ,${limit}
     </select>
 
-    <insert id="saveUser" parameterType="com.courage.shardingsphere.jdbc.domain.po.User">
+    <insert id="saveUser" parameterType="com.courage.shardingsphere.jdbc.domain.po.TestBigsql">
         insert into test_bigsql
         (
             id,

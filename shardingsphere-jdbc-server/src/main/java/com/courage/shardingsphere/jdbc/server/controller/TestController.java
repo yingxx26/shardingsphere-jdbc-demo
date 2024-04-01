@@ -2,8 +2,11 @@ package com.courage.shardingsphere.jdbc.server.controller;
 
 import com.courage.shardingsphere.jdbc.common.result.ResponseEntity;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrder;
-import com.courage.shardingsphere.jdbc.domain.po.User;
+import com.courage.shardingsphere.jdbc.domain.po.TestBigsql;
 import com.courage.shardingsphere.jdbc.service.OrderService;
+import com.courage.shardingsphere.jdbc.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +27,10 @@ public class TestController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private UserService userService;
+
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -61,7 +68,7 @@ public class TestController {
     @GetMapping("/queryUsers")//没用插件
     @ApiOperation("queryUsers")
     public ResponseEntity queryUsers() {
-        List<User> orderMap = orderService.queryUsers();
+        List<TestBigsql> orderMap = orderService.queryUsers();
         return ResponseEntity.successResult(orderMap);
     }
 
@@ -71,4 +78,15 @@ public class TestController {
         orderService.saveUser();
         return ResponseEntity.successResult(null);
     }
+
+    @GetMapping("/queryUsersPage")//没用插件
+    @ApiOperation("queryUsersPage")
+    public ResponseEntity queryUsersPage() {
+
+            PageHelper.startPage(4,2);
+            List<TestBigsql> itemsList =   userService.selectPageVo();;
+            PageInfo<TestBigsql> pageInfo = new PageInfo<>(itemsList);
+         return ResponseEntity.successResult(pageInfo);
+    }
+
 }
