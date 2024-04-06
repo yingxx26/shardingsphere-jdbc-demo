@@ -28,7 +28,6 @@ spring:
             standard:
               shardingColumn: id
               precise-algorithm-class-name: com.courage.shardingsphere.jdbc.service.sharding.PreciseShardingTableAlgorithm
-              range-algorithm-class-name: com.courage.shardingsphere.jdbc.service.sharding.RangeShardingTableAlgorithm
   servlet:
     multipart:
       enabled: true
