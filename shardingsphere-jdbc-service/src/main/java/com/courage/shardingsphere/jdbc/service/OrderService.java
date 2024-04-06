@@ -92,8 +92,8 @@ public class OrderService {
 
     public List<TestBigsql> queryUsers(  ) {
         Map<String,Object> map= new HashMap<>();
-        map.put("offset",9);
-        map.put("limit",2);
+        map.put("startx",2);
+        map.put("endx",8);
         List<TestBigsql> testBigsqls = orderMapper.queryUsers(map);
         return testBigsqls;
     }

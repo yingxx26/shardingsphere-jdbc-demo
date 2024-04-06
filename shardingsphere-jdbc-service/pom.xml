@@ -32,13 +32,17 @@
         </dependency>
 
         <!-- shardingsphere jdbc start -->
+       <!-- <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+            <version>yxx.4.1.1</version>
+        </dependency>-->
+        <!-- shardingsphere jdbc end -->
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
-            <version>4.1.1</version>
+            <version>yxx.4.1.1</version>
         </dependency>
-        <!-- shardingsphere jdbc end -->
-
 
 
     </dependencies>

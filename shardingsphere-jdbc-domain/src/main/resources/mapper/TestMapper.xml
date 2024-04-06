@@ -120,7 +120,7 @@
                    *
                     FROM
                     test_bigsql a
-                    limit  ${offset} ,${limit}
+                    WHERE id BETWEEN #{startx} AND #{endx}
     </select>
 
     <insert id="saveUser" parameterType="com.courage.shardingsphere.jdbc.domain.po.TestBigsql">

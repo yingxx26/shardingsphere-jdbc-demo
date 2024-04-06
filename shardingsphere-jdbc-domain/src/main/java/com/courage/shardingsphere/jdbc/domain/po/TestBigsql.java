@@ -1,8 +1,12 @@
 package com.courage.shardingsphere.jdbc.domain.po;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.Date;
-
+/*@Data
+@TableName("test_bigsql")*/
 public class TestBigsql {
 
     private Long id;

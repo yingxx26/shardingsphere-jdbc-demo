@@ -1,28 +1,21 @@
 package com.courage.shardingsphere.jdbc.server.config;
 
-import org.apache.ibatis.session.SqlSessionFactory;
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor  ;
+import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.Resource;
-import java.util.List;
-
 @Configuration
+@MapperScan("com.courage.shardingsphere.jdbc.domain.mapper")
 public class MybatisPageConfig {
 
-    /**
-     * 可能存在多个连接工厂，是允许这么注入的
-     */
-    @Resource
-    private List<SqlSessionFactory> sqlSessionFactoryList;
+        @Bean
+        public MybatisPlusInterceptor mybatisPlusInterceptor() {
+            MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+            interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+            return interceptor;
 
-   /* @PostConstruct
-    public void initConfig(){
-        PageInterceptor pageInterceptor = new PageInterceptor();
-        Properties properties = new Properties();
-        // 设置数据源方言，使用mysql
-        properties.setProperty("helperDialect","mysql");
-
-        pageInterceptor.setProperties(properties);
-        sqlSessionFactoryList.forEach(factory ->factory.getConfiguration().addInterceptor(pageInterceptor));
-    }*/
+    }
 }

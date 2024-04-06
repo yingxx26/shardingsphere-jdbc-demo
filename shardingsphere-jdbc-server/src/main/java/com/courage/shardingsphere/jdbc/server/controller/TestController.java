@@ -1,12 +1,11 @@
 package com.courage.shardingsphere.jdbc.server.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.courage.shardingsphere.jdbc.common.result.ResponseEntity;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrder;
 import com.courage.shardingsphere.jdbc.domain.po.TestBigsql;
 import com.courage.shardingsphere.jdbc.service.OrderService;
 import com.courage.shardingsphere.jdbc.service.UserService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -83,10 +82,16 @@ public class TestController {
     @ApiOperation("queryUsersPage")
     public ResponseEntity queryUsersPage() {
 
-            PageHelper.startPage(4,2);
-            List<TestBigsql> itemsList =   userService.selectPageVo();;
-            PageInfo<TestBigsql> pageInfo = new PageInfo<>(itemsList);
-         return ResponseEntity.successResult(pageInfo);
+        Page<TestBigsql> userPage = new Page<>(4,2);
+        List<TestBigsql> testBigsqls = userService.selectPageVo(userPage);
+        return ResponseEntity.successResult(testBigsqls);
     }
 
+
+    @GetMapping("/queryUsersGroup")//没用插件
+    @ApiOperation("queryUsersGroup")
+    public ResponseEntity queryUsersGroup() {
+       userService.selectgroupVo();
+        return ResponseEntity.successResult("");
+    }
 }

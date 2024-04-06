@@ -1,7 +1,6 @@
 package com.courage.shardingsphere.jdbc.common.result;
 
 
-import com.github.pagehelper.Page;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,11 +24,6 @@ public class ResultPage<T> implements Serializable {
     }
 
     private void init(List<T> rows) {
-        if (rows instanceof Page) {
-            Page<T> page = (Page) rows;
-            this.total = page.getTotal();
-            this.data = page.getResult();
-        }
 
     }
 
