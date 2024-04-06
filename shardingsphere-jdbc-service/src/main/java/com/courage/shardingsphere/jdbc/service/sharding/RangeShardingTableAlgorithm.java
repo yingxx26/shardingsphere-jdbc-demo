@@ -22,15 +22,15 @@ public class RangeShardingTableAlgorithm implements RangeShardingAlgorithm<Integ
                                          final RangeShardingValue<Integer> shardingValue) {
         Set<String> result = new LinkedHashSet<>();
         // 如果between  2000000 and 7000000
-        if (Range.closed(2000000, 7000000).encloses(shardingValue.getValueRange())) {
+        //if (Range.closed(2000000, 7000000).encloses(shardingValue.getValueRange())) {
             for (String each : tableNames) {
-                if (each.endsWith("0")) {
+               // if (each.endsWith("0")) {
                     result.add(each);
-                }
-            }
-        } else {
+              //  }
+           }
+        /*} else {
             throw new UnsupportedOperationException();
-        }
+        }*/
         return result;
     }
 
