@@ -1,17 +1,36 @@
 package com.courage.shardingsphere.jdbc.server.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.courage.shardingsphere.jdbc.common.result.ResponseEntity;
 import com.courage.shardingsphere.jdbc.domain.po.TEntOrder;
+import com.courage.shardingsphere.jdbc.domain.po.TestBigsql;
 import com.courage.shardingsphere.jdbc.service.OrderService;
+import com.courage.shardingsphere.jdbc.service.UserService;
+import com.courage.shardingsphere.jdbc.service.sharding.PreciseShardingTableAlgorithm;
+import com.courage.shardingsphere.jdbc.service.sharding.RangeShardingTableAlgorithm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.shardingsphere.api.config.sharding.ShardingRuleConfiguration;
+import org.apache.shardingsphere.api.config.sharding.TableRuleConfiguration;
+import org.apache.shardingsphere.api.config.sharding.strategy.StandardShardingStrategyConfiguration;
+import org.apache.shardingsphere.shardingjdbc.api.ShardingDataSourceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,12 +44,54 @@ public class TestController {
     private OrderService orderService;
 
     @Autowired
+    private UserService userService;
+
+
+    @Autowired
     private RedisTemplate redisTemplate;
+
 
     @GetMapping("/test")
     @ApiOperation("test")
-    public ResponseEntity test() {
-        redisTemplate.opsForValue().set("hello", "myulife");
+    public ResponseEntity test() throws SQLException {
+        // 配置真实数据源
+        Map<String, DataSource> dataSourceMap = new HashMap<>();
+
+        // 配置第一个数据源
+        BasicDataSource dataSource1 = new BasicDataSource();
+        dataSource1.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource1.setUrl("jdbc:mysql://localhost:3306/ds_0?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useTimezone=true&allowPublicKeyRetrieval=true");
+        dataSource1.setUsername("root");
+        dataSource1.setPassword("123456");
+        dataSourceMap.put("ds0", dataSource1);
+
+
+        // 配置Order表规则
+        TableRuleConfiguration orderTableRuleConfig = new TableRuleConfiguration("test_bigsql","ds0.test_bigsql${1..3}");
+
+        // 配置分库 + 分表策略
+        orderTableRuleConfig.setTableShardingStrategyConfig(new StandardShardingStrategyConfiguration("id",
+                new PreciseShardingTableAlgorithm(), new RangeShardingTableAlgorithm()));
+
+        // 配置分片规则
+        ShardingRuleConfiguration shardingRuleConfig = new ShardingRuleConfiguration();
+        shardingRuleConfig.getTableRuleConfigs().add(orderTableRuleConfig);
+
+        // 省略配置order_item表规则...
+        // ...
+
+        // 获取数据源对象
+        DataSource dataSource = ShardingDataSourceFactory.createDataSource(dataSourceMap, shardingRuleConfig, new Properties());
+
+        Connection connection = dataSource.getConnection();
+        PreparedStatement prepareStatement = connection.prepareStatement("select * from test_bigsql where id between  4 and 20");
+        //prepareStatement.setString(1, "2342");
+        prepareStatement.execute();
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            log.info("标准分片查询数据x_openid:{}", result.getString(1));
+        }
+        connection.close();
         return ResponseEntity.successResult("mylife");
     }
 
@@ -41,19 +102,13 @@ public class TestController {
         return ResponseEntity.successResult(orderMap);
     }
 
-    @GetMapping("/queryOrderByEntId")
-    @ApiOperation("queryOrderByEntId")
-    public ResponseEntity queryOrderByEntId(String entId) {
-        Map<String, Object> orderMap = orderService.queryOrderByEntId(Long.valueOf(entId));
-        return ResponseEntity.successResult(orderMap);
-    }
-
     @GetMapping("/queryOrders")
     @ApiOperation("queryOrders")
     public ResponseEntity queryOrders() {
-        List<TEntOrder> list= orderService.queryOrders();
-        return ResponseEntity.successResult(list);
+        List<TEntOrder> orderMap = orderService.queryOrders();
+        return ResponseEntity.successResult(orderMap);
     }
+
 
     @GetMapping("/save")
     @ApiOperation("save")
@@ -64,50 +119,21 @@ public class TestController {
         return ResponseEntity.successResult(null);
     }
 
-    public static void main(String[] args) {
 
-        List<Long> list =new ArrayList<>();
-        list.add(585785164345749511l);
-        list.add(585785164346216451l);
-        list.add(585785164823797769l);
-        list.add(585785164824395781l);
-        list.add(585785166824767499l);
-        list.add(585785167050825729l);
-        list.add(585785167051296781l);
+    @GetMapping("/queryUsersPage")//没用插件
+    @ApiOperation("queryUsersPage")
+    public ResponseEntity queryUsersPage() {
 
-
-        list.add(585785164347441163l);
-        list.add(585785164825026561l);
-        list.add(585785164825440269l);
-        list.add(585785165223317507l);
-        list.add(585785166825463815l);
-
-        list.add(585785165224222727l);
-        list.add(585785165224820747l);
-        list.add(585785165589229577l);
-
-        list.add(585785164105797637l);
-        list.add(585785165590093825l);
-        list.add(585785165590659077l);
-
-
-        List<Long> sortedNumbers1 = list.stream().sorted().collect(Collectors.toList());
-        System.out.println("按照自然顺序排序后的列表：" + sortedNumbers1);
-    // -1+1+3+4  +4s
-        //11  16  19
-        List<Long> result  =new ArrayList<>();
-        result.add(list.get(5));
-        result.add(list.get(6));
-        result.add(list.get(7));
-        System.out.println(" ：" + result);
+        Page<TestBigsql> userPage = new Page<>(4,2);
+        List<TestBigsql> testBigsqls = userService.selectPageVo(userPage);
+        return ResponseEntity.successResult(testBigsqls);
     }
 
-    @GetMapping("/saveboth")
-    @ApiOperation("saveboth")
-    public ResponseEntity saveboth() {
-        for(long i=1;i<10;i++){
-            orderService.saveBoth(i);
-        }
-        return ResponseEntity.successResult(null);
+
+    @GetMapping("/queryUsersGroup")//没用插件
+    @ApiOperation("queryUsersGroup")
+    public ResponseEntity queryUsersGroup() {
+       userService.selectgroupVo();
+        return ResponseEntity.successResult("");
     }
 }
