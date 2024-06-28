@@ -10,11 +10,29 @@ spring:
   shardingsphere:
     datasource:
       enabled: true
-      names: ds0
+      names: ds0,ds1,ds2,ds3
       ds0:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://127.0.0.1:3306/ds_0?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useTimezone=true
+        username: root
+        password: 123456
+      ds1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/ds_1?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useTimezone=true
+        username: root
+        password: 123456
+      ds2:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/ds_2?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useTimezone=true
+        username: root
+        password: 123456
+      ds3:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/ds_3?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&useTimezone=true
         username: root
         password: 123456
     props:
@@ -25,7 +43,7 @@ spring:
         # 订单表基础表
         t_ent_order:
           # 真实表
-          actualDataNodes: ds$->{0}.t_ent_order
+          actualDataNodes: ds$->{0..3}.t_ent_order
           # 分库策略
           databaseStrategy:
             complex:
@@ -37,7 +55,7 @@ spring:
         # 订单条目表
         t_ent_order_item:
           # 真实表
-          actualDataNodes: ds$->{0}.t_ent_order_item_$->{0..3}
+          actualDataNodes: ds$->{0..3}.t_ent_order_item_$->{0..7}
           # 分库策略
           databaseStrategy:
             complex:
@@ -51,7 +69,7 @@ spring:
         # 订单详情表
         t_ent_order_detail:
           # 真实表
-          actualDataNodes: ds$->{0}.t_ent_order_detail
+          actualDataNodes: ds$->{0..3}.t_ent_order_detail
           # 分库策略
           databaseStrategy:
              complex:

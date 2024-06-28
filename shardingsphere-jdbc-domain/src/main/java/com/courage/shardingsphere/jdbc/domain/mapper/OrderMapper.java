@@ -27,4 +27,7 @@ public interface OrderMapper {
     Map<String,Object> queryOrderByEntId(Long entId);
 
     List<TEntOrder>  queryOrders();
+
+    //订单条目
+    void saveOrderItems(TEntOrderItem entOrderItem);
 }

@@ -55,11 +55,10 @@ public class TestController {
         return ResponseEntity.successResult(list);
     }
 
-
     @GetMapping("/save")
     @ApiOperation("save")
     public ResponseEntity save() {
-        for(long i=1;i<2000;i++){
+        for(long i=1;i<10;i++){
             orderService.save(i);
         }
         return ResponseEntity.successResult(null);
@@ -101,7 +100,14 @@ public class TestController {
         result.add(list.get(6));
         result.add(list.get(7));
         System.out.println(" ：" + result);
+    }
 
-
+    @GetMapping("/saveboth")
+    @ApiOperation("saveboth")
+    public ResponseEntity saveboth() {
+        for(long i=1;i<10;i++){
+            orderService.saveBoth(i);
+        }
+        return ResponseEntity.successResult(null);
     }
 }

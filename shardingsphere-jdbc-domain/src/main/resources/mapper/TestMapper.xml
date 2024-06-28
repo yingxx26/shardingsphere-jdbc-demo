@@ -132,4 +132,29 @@
                     t_ent_order a  order by id   limit 16,3
     </select>
 
+
+    <insert id="saveOrderItems" parameterType="com.courage.shardingsphere.jdbc.domain.po.TEntOrderItem">
+        insert into t_ent_order_items
+        (
+            id,
+            ent_id,
+            region_code ,
+            good_id,
+            good_name,
+            order_id,
+            create_time,
+            update_time
+        )
+        values
+            (
+                #{id},
+                #{entId},
+                #{regionCode},
+                #{goodId},
+                #{goodName},
+                #{orderId},
+                now(),
+                now()
+            )
+    </insert>
 </mapper>
